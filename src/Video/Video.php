@@ -9,11 +9,12 @@ final class Video
 {
     private string $platform;
     private string $id;
+    private string $url;
 
 
     /**
      */
-    public function __construct (string $platform, string $id)
+    public function __construct (string $platform, string $id, ?string $url = null)
     {
         if ("" === $platform || !\preg_match('~^[\\w_-]+$~', $platform))
         {
@@ -27,6 +28,7 @@ final class Video
 
         $this->platform = $platform;
         $this->id = $id;
+        $this->url = $url ?? "{$platform}@{$id}";
     }
 
 
@@ -40,14 +42,6 @@ final class Video
 
     /**
      */
-    public function setPlatform (string $platform) : void
-    {
-        $this->platform = $platform;
-    }
-
-
-    /**
-     */
     public function getId () : string
     {
         return $this->id;
@@ -55,11 +49,13 @@ final class Video
 
 
     /**
+     * @return string|null
      */
-    public function setId (string $id) : void
+    public function getUrl () : ?string
     {
-        $this->id = $id;
+        return $this->url;
     }
+
 
 
     /**
@@ -69,6 +65,7 @@ final class Video
         return [
             "platform" => $this->platform,
             "id" => $this->id,
+            "url" => $this->url,
         ];
     }
 
@@ -84,10 +81,17 @@ final class Video
 
         if (!isset($value["platform"], $value["id"]) || !\is_string($value["platform"]) || !\is_string($value["id"]))
         {
-            throw new VideoUnserializeException(\sprintf("Can't unserialize video id: %s", $value));
+            throw new VideoUnserializeException("Can't unserialize video array");
         }
 
-        return new self($value["platform"], $value["id"]);
+        $url = $value["url"] ?? null;
+
+        if (null !== $url && !\is_string($url))
+        {
+            throw new VideoUnserializeException("Can't unserialize video array");
+        }
+
+        return new self($value["platform"], $value["id"], $url);
     }
 
 

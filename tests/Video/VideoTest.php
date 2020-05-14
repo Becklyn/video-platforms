@@ -85,4 +85,55 @@ final class VideoTest extends TestCase
         $this->expectException(InvalidVideoDetailsException::class);
         new Video($platform, $id);
     }
+
+
+    /**
+     */
+    public function provideArrayCreate () : iterable
+    {
+        yield "explicit url" => [
+            ["platform" => "abc", "id" => "id", "url" => "url"],
+            "abc",
+            "id",
+            "url"
+        ];
+
+        yield "auto-generated url" => [
+            ["platform" => "abc", "id" => "id"],
+            "abc",
+            "id",
+            "abc@id"
+        ];
+    }
+
+
+    /**
+     * @dataProvider provideArrayCreate
+     */
+    public function testArrayCreate (array $value, string $platform, string $id, string $url) : void
+    {
+        $video = Video::createFromArray($value);
+        self::assertSame($platform, $video->getPlatform());
+        self::assertSame($id, $video->getId());
+        self::assertSame($url, $video->getUrl());
+    }
+
+
+    /**
+     */
+    public function provideInvalidArrayCreate () : iterable
+    {
+        yield [[]];
+        yield [["platform" => "abc", "id" => "123", "url" => 123]];
+    }
+
+
+    /**
+     * @dataProvider provideInvalidArrayCreate
+     */
+    public function testInvalidArrayCreate (array $value) : void
+    {
+        $this->expectException(VideoUnserializeException::class);
+        Video::createFromArray($value);
+    }
 }

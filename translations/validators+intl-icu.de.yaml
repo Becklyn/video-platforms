@@ -1,0 +1,4 @@
+becklyn:
+    video-platforms:
+        invalid: Der eingegeben Wert ist ungültig.
+        unsupported-platform: Diese Video-Platform wird an dieser Stelle nicht unterstützt.

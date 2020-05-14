@@ -116,6 +116,10 @@ class MyForm extends AbstractType
 }
 ```
 
+> **Tip:**
+>
+> When entering the value in a form field, you can always use the string-serialized version,
+> to avoid parsing clashes. So just enter `vimeo@123` for example.
 
 ### Validation
 
@@ -139,3 +143,22 @@ You can also define which platforms you want to allow. Use the platform key:
 
 Implement the `VideoUrlParserInterface` and either use autoconfiguration 
 or add the DI tag `becklyn.video-platforms.parser`.
+
+
+### Supported Formats
+
+#### Vimeo
+
+*   `123456789` (plain id, watch out for clashes)
+*   `https://vimeo.com/123456789`
+
+
+#### YouTube
+
+*   `_1234567890` (plain id, watch out for clashes)
+*   `https://www.youtube.com/watch?v=_1234567890`
+*   `https://www.youtube.com/v/_1234567890`
+*   `https://youtu.be/_1234567890`
+*   `https://www.youtube.com/oembed?url=http%3A//www.youtube.com/watch?v%3D_1234567890&format=json`
+*   `https://youtube.com/embed/_1234567890`
+*   `https://www.youtube.com/attribution_link?a=sgsfg&u=%2Fwatch%3Fv%3D_1234567890%26feature%3Dem-uploademail`

@@ -14,13 +14,16 @@ final class VideoUrlParserTest extends TestCase
         yield ["", null];
         yield [null, null];
 
+        // direct format support
+        yield "direct format support" => ["example@123", "example@123"];
+
         // Valid Vimeo variations
-        yield "vimeo plain id" => ["123456789", "vimeo://123456789"];
-        yield "vimeo url https" => ["http://vimeo.com/123456789", "vimeo://123456789"];
-        yield "vimeo url http" => ["https://vimeo.com/123456789", "vimeo://123456789"];
-        yield "vimeo url with query" => ["https://vimeo.com/123456789?test=123", "vimeo://123456789"];
-        yield "vimeo url with fragment" => ["https://vimeo.com/123456789#abc", "vimeo://123456789"];
-        yield "vimeo url with query + fragment" => ["https://vimeo.com/123456789?test=123#abc", "vimeo://123456789"];
+        yield "vimeo plain id" => ["123456789", "vimeo@123456789"];
+        yield "vimeo url https" => ["http://vimeo.com/123456789", "vimeo@123456789"];
+        yield "vimeo url http" => ["https://vimeo.com/123456789", "vimeo@123456789"];
+        yield "vimeo url with query" => ["https://vimeo.com/123456789?test=123", "vimeo@123456789"];
+        yield "vimeo url with fragment" => ["https://vimeo.com/123456789#abc", "vimeo@123456789"];
+        yield "vimeo url with query + fragment" => ["https://vimeo.com/123456789?test=123#abc", "vimeo@123456789"];
 
         // Invalid Vimeo variations
         yield "vimeo with parent dir" => ["https://vimeo.com/parent/123456789", null];
@@ -28,15 +31,15 @@ final class VideoUrlParserTest extends TestCase
         yield "vimeo with parent + sub dir" => ["https://vimeo.com/parent/123456789/sub", null];
 
         // Valid YouTube variations
-        yield "youtube plain id" => ["_1234567890", "youtube://_1234567890"];
-        yield "youtube url http" => ["http://www.youtube.com/watch?v=_1234567890", "youtube://_1234567890"];
-        yield "youtube url https" => ["https://www.youtube.com/watch?v=_1234567890", "youtube://_1234567890"];
-        yield "youtube.com/v" => ["https://www.youtube.com/v/_1234567890?version=3&autohide=1", "youtube://_1234567890"];
-        yield "youtu.be https" => ["https://youtu.be/_1234567890", "youtube://_1234567890"];
-        yield "youtu.be http" => ["http://youtu.be/_1234567890", "youtube://_1234567890"];
-        yield "youtube oembed" => ["https://www.youtube.com/oembed?url=http%3A//www.youtube.com/watch?v%3D_1234567890&format=json", "youtube://_1234567890"];
-        yield "youtube embed" => ["https://youtube.com/embed/_1234567890", "youtube://_1234567890"];
-        yield "youtube attribution link" => ["https://www.youtube.com/attribution_link?a=sgsfg&u=%2Fwatch%3Fv%3D_1234567890%26feature%3Dem-uploademail", "youtube://_1234567890"];
+        yield "youtube plain id" => ["_1234567890", "youtube@_1234567890"];
+        yield "youtube url http" => ["http://www.youtube.com/watch?v=_1234567890", "youtube@_1234567890"];
+        yield "youtube url https" => ["https://www.youtube.com/watch?v=_1234567890", "youtube@_1234567890"];
+        yield "youtube.com/v" => ["https://www.youtube.com/v/_1234567890?version=3&autohide=1", "youtube@_1234567890"];
+        yield "youtu.be https" => ["https://youtu.be/_1234567890", "youtube@_1234567890"];
+        yield "youtu.be http" => ["http://youtu.be/_1234567890", "youtube@_1234567890"];
+        yield "youtube oembed" => ["https://www.youtube.com/oembed?url=http%3A//www.youtube.com/watch?v%3D_1234567890&format=json", "youtube@_1234567890"];
+        yield "youtube embed" => ["https://youtube.com/embed/_1234567890", "youtube@_1234567890"];
+        yield "youtube attribution link" => ["https://www.youtube.com/attribution_link?a=sgsfg&u=%2Fwatch%3Fv%3D_1234567890%26feature%3Dem-uploademail", "youtube@_1234567890"];
 
         // Invalid Youtube Variations
         yield "youtube.com/watch id too long" => ["http://www.youtube.com/watch?v=_12345678901", null];

@@ -2,6 +2,7 @@
 
 namespace Becklyn\VideoPlatforms\Parser;
 
+use Becklyn\VideoPlatforms\Exception\VideoUnserializeException;
 use Becklyn\VideoPlatforms\Video\Video;
 
 final class VideoUrlParser
@@ -27,6 +28,13 @@ final class VideoUrlParser
         if ("" === $videoUrl)
         {
             return null;
+        }
+
+        $serializedVideoMatch = Video::parse($videoUrl);
+
+        if (null !== $serializedVideoMatch)
+        {
+            return $serializedVideoMatch;
         }
 
         foreach ($this->parsers as $parser)

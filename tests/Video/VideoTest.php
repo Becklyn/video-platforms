@@ -13,8 +13,8 @@ final class VideoTest extends TestCase
      */
     public function provideSerialize () : iterable
     {
-        yield [new Video("test", "123"), "test://123"];
-        yield [new Video("abc", "obgä?_"), "abc://obgä?_"];
+        yield [new Video("test", "123"), "test@123"];
+        yield [new Video("abc", "obgä?_"), "abc@obgä?_"];
     }
 
 
@@ -31,10 +31,10 @@ final class VideoTest extends TestCase
      */
     public function provideUnserialize () : iterable
     {
-        yield ["abc://123", new Video("abc", "123")];
-        yield ["abc-d://123", new Video("abc-d", "123")];
-        yield ["abc_d://123", new Video("abc_d", "123")];
-        yield ["abc://obgä?_", new Video("abc", "obgä?_")];
+        yield ["abc@123", new Video("abc", "123")];
+        yield ["abc-d@123", new Video("abc-d", "123")];
+        yield ["abc_d@123", new Video("abc_d", "123")];
+        yield ["abc@obgä?_", new Video("abc", "obgä?_")];
     }
 
     /**
@@ -42,7 +42,7 @@ final class VideoTest extends TestCase
      */
     public function testUnserialize (string $actual, Video $expected) : void
     {
-        self::assertEquals($expected, Video::fromString($actual));
+        self::assertEquals($expected, Video::createFromString($actual));
     }
 
 
@@ -50,9 +50,9 @@ final class VideoTest extends TestCase
      */
     public function provideInvalidUnserialize () : iterable
     {
-        yield ["test:test://abc"];
-        yield ["test/test://abc"];
-        yield ["test test://abc"];
+        yield ["test@test@abc"];
+        yield ["test/test@abc"];
+        yield ["test test@abc"];
     }
 
     /**
@@ -61,7 +61,7 @@ final class VideoTest extends TestCase
     public function testInvalidUnserialize (string $actual) : void
     {
         $this->expectException(VideoUnserializeException::class);
-        Video::fromString($actual);
+        Video::createFromString($actual);
     }
 
 
@@ -70,9 +70,10 @@ final class VideoTest extends TestCase
     public function provideInvalidCreate () : iterable
     {
         yield ["", "123"];
-        yield ["a/b", "213"];
+        yield ["a@b", "213"];
         yield ["a b", "213"];
         yield ["a:b", "213"];
+        yield ["a:b", "a@b"];
         yield ["ab", ""];
     }
 

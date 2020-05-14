@@ -20,7 +20,7 @@ final class Video
             throw new InvalidVideoDetailsException(\sprintf("Invalid platform: %s", $platform));
         }
 
-        if ("" === $id)
+        if ("" === $id || false !== \strpos("$id", "@"))
         {
             throw new InvalidVideoDetailsException(\sprintf("Invalid id: %s", $id));
         }
@@ -74,24 +74,42 @@ final class Video
      */
     public function serialize () : string
     {
-        return "{$this->platform}://{$this->id}";
+        return "{$this->platform}@{$this->id}";
     }
 
 
     /**
      */
-    public static function fromString (?string $value) : ?self
+    public static function createFromString (?string $value) : ?self
     {
         if (null === $value || "" === $value)
         {
             return null;
         }
 
-        if (\preg_match('~^(?<platform>[\\w_-]+)://(?<id>.+)$~', $value, $matches))
+        $video = self::parse($value);
+
+        if (null === $video)
         {
-            return new self($matches["platform"], $matches["id"]);
+            throw new VideoUnserializeException(\sprintf("Can't unserialize video id: %s", $value));
         }
 
-        throw new VideoUnserializeException(\sprintf("Can't unserialize video id: %s", $value));
+        return $video;
+    }
+
+
+    /**
+     * Parses the value
+     */
+    public static function parse (?string $value) : ?self
+    {
+        if (null === $value || "" === $value)
+        {
+            return null;
+        }
+
+        return \preg_match('~^(?<platform>[\\w_-]+)@(?<id>[^@]+)$~', $value, $matches)
+            ? new self($matches["platform"], $matches["id"])
+            : null;
     }
 }

@@ -1,0 +1,41 @@
+{
+    "name": "becklyn/video-platforms",
+    "type": "symfony-bundle",
+    "description": "Several helpers for integrating video tools in your Symfony application.",
+    "homepage": "https://github.com/Becklyn/video-platforms",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Becklyn Studios",
+            "homepage": "https://becklyn.com/"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "symfony/http-foundation": "^5.0",
+        "symfony/http-kernel": "^5.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "symfony/phpunit-bridge": "^5.0.7"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev",
+            "dev-next": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Becklyn\\VideoPlatforms\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Becklyn\\VideoPlatforms\\": "tests/"
+        }
+    }
+}

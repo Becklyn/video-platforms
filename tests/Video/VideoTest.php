@@ -42,7 +42,7 @@ final class VideoTest extends TestCase
      */
     public function testUnserialize (string $actual, Video $expected) : void
     {
-        self::assertEquals($expected, Video::createFromString($actual));
+        self::assertEquals($expected, Video::unserialize($actual));
     }
 
 
@@ -60,8 +60,7 @@ final class VideoTest extends TestCase
      */
     public function testInvalidUnserialize (string $actual) : void
     {
-        $this->expectException(VideoUnserializeException::class);
-        Video::createFromString($actual);
+        self::assertNull(Video::unserialize($actual));
     }
 
 

@@ -30,7 +30,7 @@ final class VideoUrlParser
             return null;
         }
 
-        $serializedVideoMatch = Video::parse($videoUrl);
+        $serializedVideoMatch = Video::unserialize($videoUrl);
 
         if (null !== $serializedVideoMatch)
         {

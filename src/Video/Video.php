@@ -64,13 +64,35 @@ final class Video
 
     /**
      */
-    public function __toString () : string
+    public function toArray () : array
     {
-        return $this->serialize();
+        return [
+            "platform" => $this->platform,
+            "id" => $this->id,
+        ];
     }
 
 
     /**
+     */
+    public static function createFromArray (?array $value) : ?self
+    {
+        if (null === $value)
+        {
+            return null;
+        }
+
+        if (!isset($value["platform"], $value["id"]) || !\is_string($value["platform"]) || !\is_string($value["id"]))
+        {
+            throw new VideoUnserializeException(\sprintf("Can't unserialize video id: %s", $value));
+        }
+
+        return new self($value["platform"], $value["id"]);
+    }
+
+
+    /**
+     * @return string
      */
     public function serialize () : string
     {
@@ -79,29 +101,9 @@ final class Video
 
 
     /**
-     */
-    public static function createFromString (?string $value) : ?self
-    {
-        if (null === $value || "" === $value)
-        {
-            return null;
-        }
-
-        $video = self::parse($value);
-
-        if (null === $video)
-        {
-            throw new VideoUnserializeException(\sprintf("Can't unserialize video id: %s", $value));
-        }
-
-        return $video;
-    }
-
-
-    /**
      * Parses the value
      */
-    public static function parse (?string $value) : ?self
+    public static function unserialize (?string $value) : ?self
     {
         if (null === $value || "" === $value)
         {

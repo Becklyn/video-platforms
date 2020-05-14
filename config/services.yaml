@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Becklyn\VideoPlatforms\:
+        resource: '../src/*'
+        exclude: '../src/{Exception,Video,BecklynVideoPlatformsBundle.php}'
+
+    Becklyn\VideoPlatforms\Parser\VideoUrlParser:
+        $parsers: !tagged_iterator becklyn.video-platforms.parser

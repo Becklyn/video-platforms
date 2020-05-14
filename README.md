@@ -4,6 +4,14 @@ Video Platforms Bundle
 Several helpers for integrating video tools in your Symfony application.
 
 
+Installation
+------------
+
+```bash
+composer require becklyn/video-platforms
+```
+
+
 Usage
 -----
 

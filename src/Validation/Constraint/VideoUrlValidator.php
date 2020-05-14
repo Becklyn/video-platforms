@@ -2,52 +2,59 @@
 
 namespace Becklyn\VideoPlatforms\Validation\Constraint;
 
-use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
+use Becklyn\VideoPlatforms\Exception\VideoUnserializeException;
+use Becklyn\VideoPlatforms\Video\Video;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 final class VideoUrlValidator extends ConstraintValidator
 {
-    private VideoUrlParser $parser;
-
-
-    /**
-     */
-    public function __construct (VideoUrlParser $parser)
-    {
-        $this->parser = $parser;
-    }
-
-
     /**
      * @inheritDoc
      */
-    public function validate ($value, Constraint $constraint)
+    public function validate ($value, Constraint $constraint) : void
     {
         if (null === $value || "" === $value)
         {
             return;
         }
 
-        assert($constraint instanceof VideoUrl);
-        $video = $this->parser->parse($value);
+        \assert($constraint instanceof VideoUrl);
 
-        if (null === $video)
+        if (!\is_array($value))
         {
-            $this->context
-                ->buildViolation($constraint->invalidMessage)
-                ->addViolation();
+            $this->invalid($constraint);
+            return;
         }
 
-        $platforms = $constraint->platforms ?? [];
+        try {
+            $video = Video::createFromArray($value);
+            \assert($video instanceof Video);
 
-        if (!empty($platforms) && !\in_array($video->getPlatform(), $platforms, true))
+            $platforms = $constraint->platforms ?? [];
+
+            if (!empty($platforms) && !\in_array($video->getPlatform(), $platforms, true))
+            {
+                $this->context
+                    ->buildViolation($constraint->unsupportedPlatformMessage)
+                    ->addViolation();
+            }
+        }
+        catch (VideoUnserializeException $exception)
         {
-            $this->context
-                ->buildViolation($constraint->unsupportedPlatformMessage)
-                ->addViolation();
+            $this->invalid($constraint);
+            return;
         }
     }
 
+
+    /**
+     */
+    private function invalid (VideoUrl $constraint) : void
+    {
+        $this->context
+            ->buildViolation($constraint->invalidMessage)
+            ->addViolation();
+    }
 
 }

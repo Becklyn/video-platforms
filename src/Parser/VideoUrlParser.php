@@ -2,7 +2,6 @@
 
 namespace Becklyn\VideoPlatforms\Parser;
 
-use Becklyn\VideoPlatforms\Exception\VideoUnserializeException;
 use Becklyn\VideoPlatforms\Video\Video;
 
 final class VideoUrlParser

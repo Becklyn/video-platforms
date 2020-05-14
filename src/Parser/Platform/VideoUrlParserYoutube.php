@@ -22,7 +22,7 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
 
         if ($this->isValidId($videoUrl))
         {
-            return new Video(self::KEY, $videoUrl);
+            return new Video(self::KEY, $videoUrl, $videoUrl);
         }
 
         $parsed = \parse_url($videoUrl);
@@ -34,17 +34,22 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
         {
             if ("/watch" === $path)
             {
-                return $this->tryCreate($query["v"] ?? "");
+                return $this->tryCreate($query["v"] ?? "", $videoUrl);
             }
 
             if (\preg_match('~^/(v|embed)/(?<id>.*?)$~', $path, $match))
             {
-                return $this->tryCreate($match["id"]);
+                return $this->tryCreate($match["id"], $videoUrl);
             }
 
             if ("/oembed" === $path)
             {
-                return $this->parse($query["url"] ?? "");
+                $subVideo = $this->parse($query["url"] ?? "");
+
+                return null !== $subVideo
+                    // keep top level url
+                    ? new Video($subVideo->getPlatform(), $subVideo->getId(), $videoUrl)
+                    : null;
             }
 
             if ("/attribution_link" === $path)
@@ -53,7 +58,7 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
                  \parse_str($subUrl["query"] ?? "", $subQuery);
 
                 return ("/watch" === ($subUrl["path"] ?? ""))
-                    ? $this->tryCreate($subQuery["v"] ?? "")
+                    ? $this->tryCreate($subQuery["v"] ?? "", $videoUrl)
                     : null;
             }
 
@@ -64,7 +69,7 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
         {
             if (\preg_match('~^/(?<id>.*?)$~', $path, $match))
             {
-                return $this->tryCreate($match["id"]);
+                return $this->tryCreate($match["id"], $videoUrl);
             }
         }
 
@@ -90,10 +95,10 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
     /**
      * Tries to create a video if the ID is valid, returns null otherwise
      */
-    private function tryCreate (string $id) : ?Video
+    private function tryCreate (string $id, string $videoUrl) : ?Video
     {
         return $this->isValidId($id)
-            ? new Video(self::KEY, $id)
+            ? new Video(self::KEY, $id, $videoUrl)
             : null;
     }
 }

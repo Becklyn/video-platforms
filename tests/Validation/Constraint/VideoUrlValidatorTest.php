@@ -2,9 +2,6 @@
 
 namespace Tests\Becklyn\VideoPlatforms\Validation\Constraint;
 
-use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserVimeo;
-use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserYoutube;
-use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
 use Becklyn\VideoPlatforms\Validation\Constraint\VideoUrl;
 use Becklyn\VideoPlatforms\Validation\Constraint\VideoUrlValidator;
 use PHPUnit\Framework\TestCase;
@@ -19,21 +16,21 @@ final class VideoUrlValidatorTest extends TestCase
     {
         yield [null, [], null];
         yield ["", [], null];
-        yield ["vimeo@123", [], null];
-        yield ["invalid", [], "becklyn.video-platforms.invalid"];
-        yield ["youtube@123", ["vimeo"], "becklyn.video-platforms.unsupported-platform"];
+        yield [["platform" => "vimeo", "id" => "123"], [], null];
+        yield [["invalid" => "yep"], [], "becklyn.video-platforms.invalid"];
+        yield [["platform" => "youtube", "id" => "123"], ["vimeo"], "becklyn.video-platforms.unsupported-platform"];
     }
 
 
     /**
      * @dataProvider provideVariations
      */
-    public function testVariations (?string $value, array $platforms, ?string $violationMessage) : void
+    public function testVariations ($value, array $platforms, ?string $violationMessage) : void
     {
         $context = $this->createContext($violationMessage);
         $constraint = $this->createConstraint($platforms);
 
-        $validator = new VideoUrlValidator($this->createParser());
+        $validator = new VideoUrlValidator();
         $validator->initialize($context);
         $validator->validate($value, $constraint);
     }
@@ -47,17 +44,6 @@ final class VideoUrlValidatorTest extends TestCase
         $constraint->platforms = $platforms;
 
         return $constraint;
-    }
-
-
-    /**
-     */
-    private function createParser () : VideoUrlParser
-    {
-        return new VideoUrlParser([
-            new VideoUrlParserVimeo(),
-            new VideoUrlParserYoutube(),
-        ]);
     }
 
 

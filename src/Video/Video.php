@@ -21,7 +21,7 @@ final class Video
             throw new InvalidVideoDetailsException(\sprintf("Invalid platform: %s", $platform));
         }
 
-        if ("" === $id || false !== \strpos("$id", "@"))
+        if ("" === $id || false !== \strpos("{$id}", "@"))
         {
             throw new InvalidVideoDetailsException(\sprintf("Invalid id: %s", $id));
         }
@@ -49,7 +49,6 @@ final class Video
 
 
     /**
-     * @return string|null
      */
     public function getUrl () : ?string
     {
@@ -96,7 +95,6 @@ final class Video
 
 
     /**
-     * @return string
      */
     public function serialize () : string
     {

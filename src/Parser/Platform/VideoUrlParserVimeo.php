@@ -16,7 +16,7 @@ final class VideoUrlParserVimeo implements VideoUrlParserInterface
     {
         if (\preg_match('~^\\d+$~', $videoUrl))
         {
-            return new Video(self::KEY, $videoUrl);
+            return new Video(self::KEY, $videoUrl, $videoUrl);
         }
 
         $parsed = \parse_url($videoUrl);
@@ -24,7 +24,7 @@ final class VideoUrlParserVimeo implements VideoUrlParserInterface
         $path = $parsed["path"] ?? "";
 
         return ("vimeo.com" === $host && \preg_match("~^/(?<id>\\d+)$~", $path, $matches))
-            ? new Video(self::KEY, $matches["id"])
+            ? new Video(self::KEY, $matches["id"], $videoUrl)
             : null;
     }
 }

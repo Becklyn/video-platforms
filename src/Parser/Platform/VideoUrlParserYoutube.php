@@ -5,7 +5,7 @@ namespace Becklyn\VideoPlatforms\Parser\Platform;
 use Becklyn\VideoPlatforms\Parser\VideoUrlParserInterface;
 use Becklyn\VideoPlatforms\Video\Video;
 
-final class YouTubeUrlParser implements VideoUrlParserInterface
+final class VideoUrlParserYoutube implements VideoUrlParserInterface
 {
     private const KEY = "youtube";
 

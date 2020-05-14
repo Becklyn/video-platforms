@@ -2,8 +2,8 @@
 
 namespace Tests\Becklyn\VideoPlatforms\Validation\Constraint;
 
-use Becklyn\VideoPlatforms\Parser\Platform\VimeoUrlParser;
-use Becklyn\VideoPlatforms\Parser\Platform\YouTubeUrlParser;
+use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserVimeo;
+use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserYoutube;
 use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
 use Becklyn\VideoPlatforms\Validation\Constraint\VideoUrl;
 use Becklyn\VideoPlatforms\Validation\Constraint\VideoUrlValidator;
@@ -55,8 +55,8 @@ final class VideoUrlValidatorTest extends TestCase
     private function createParser () : VideoUrlParser
     {
         return new VideoUrlParser([
-            new VimeoUrlParser(),
-            new YouTubeUrlParser(),
+            new VideoUrlParserVimeo(),
+            new VideoUrlParserYoutube(),
         ]);
     }
 

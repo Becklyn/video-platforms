@@ -2,8 +2,8 @@
 
 namespace Tests\Becklyn\VideoPlatforms\Parser;
 
-use Becklyn\VideoPlatforms\Parser\Platform\VimeoUrlParser;
-use Becklyn\VideoPlatforms\Parser\Platform\YouTubeUrlParser;
+use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserVimeo;
+use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserYoutube;
 use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
 use PHPUnit\Framework\TestCase;
 
@@ -65,8 +65,8 @@ final class VideoUrlParserTest extends TestCase
     public function testVariations (?string $videoUrl, ?string $expected) : void
     {
         $parser = new VideoUrlParser([
-            new VimeoUrlParser(),
-            new YouTubeUrlParser(),
+            new VideoUrlParserVimeo(),
+            new VideoUrlParserYoutube(),
         ]);
 
         $video = $parser->parse($videoUrl);

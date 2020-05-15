@@ -1,21 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Becklyn\VideoPlatforms\Parser;
+namespace Tests\Becklyn\VideoPlatforms\Platform;
 
-use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserVimeo;
-use Becklyn\VideoPlatforms\Parser\Platform\VideoUrlParserYoutube;
-use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
 use PHPUnit\Framework\TestCase;
 
-final class VideoUrlParserTest extends TestCase
+final class VideoPlatformsParseUrlTest extends TestCase
 {
+    use VideoPlatformsTestTrait;
+
+    /**
+     */
     public function provideVariations () : iterable
     {
         yield ["", null];
         yield [null, null];
 
         // direct format support
-        yield "direct format support" => ["example@123", "example@123"];
+        yield "direct format support" => ["youtube@123", "youtube@123"];
 
         // Valid Vimeo variations
         yield "vimeo plain id" => ["123456789", "vimeo@123456789"];
@@ -64,12 +65,9 @@ final class VideoUrlParserTest extends TestCase
      */
     public function testVariations (?string $videoUrl, ?string $expected) : void
     {
-        $parser = new VideoUrlParser([
-            new VideoUrlParserVimeo(),
-            new VideoUrlParserYoutube(),
-        ]);
+        $platforms = $this->createVideoPlatforms();
 
-        $video = $parser->parse($videoUrl);
+        $video = $platforms->parseVideoUrl($videoUrl);
         $actual = null !== $video
             ? $video->serialize()
             : null;

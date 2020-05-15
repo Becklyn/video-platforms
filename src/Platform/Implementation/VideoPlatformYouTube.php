@@ -1,31 +1,55 @@
 <?php declare(strict_types=1);
 
-namespace Becklyn\VideoPlatforms\Parser\Platform;
+namespace Becklyn\VideoPlatforms\Platform\Implementation;
 
-use Becklyn\VideoPlatforms\Parser\VideoUrlParserInterface;
-use Becklyn\VideoPlatforms\Video\Video;
+use Becklyn\VideoPlatforms\Platform\VideoPlatformInterface;
 
-final class VideoUrlParserYoutube implements VideoUrlParserInterface
+final class VideoPlatformYouTube implements VideoPlatformInterface
 {
-    private const KEY = "youtube";
+    /**
+     * @inheritDoc
+     */
+    public static function getKey () : string
+    {
+        return "youtube";
+    }
+
 
     /**
      * @inheritDoc
      */
-    public function parse (string $videoUrl) : ?Video
+    public function getName () : string
+    {
+        return "YouTube";
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getPreviewUrl (string $id) : string
+    {
+        return "https://www.youtube.com/watch?v={$id}";
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function parseUrl (string $url) : ?string
     {
         // required as we sometimes parse recursively
-        if ("" === $videoUrl)
+        if ("" === $url)
         {
             return null;
         }
 
-        if ($this->isValidId($videoUrl))
+        if ($this->isValidId($url))
         {
-            return new Video(self::KEY, $videoUrl, $videoUrl);
+            return $url;
         }
 
-        $parsed = \parse_url($videoUrl);
+        $parsed = \parse_url($url);
         $host = $parsed["host"] ?? null;
         $path = $parsed["path"] ?? "";
         \parse_str($parsed["query"] ?? "", $query);
@@ -34,31 +58,26 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
         {
             if ("/watch" === $path)
             {
-                return $this->tryCreate($query["v"] ?? "", $videoUrl);
+                return $this->tryCreate($query["v"] ?? "");
             }
 
             if (\preg_match('~^/(v|embed)/(?<id>.*?)$~', $path, $match))
             {
-                return $this->tryCreate($match["id"], $videoUrl);
+                return $this->tryCreate($match["id"]);
             }
 
             if ("/oembed" === $path)
             {
-                $subVideo = $this->parse($query["url"] ?? "");
-
-                return null !== $subVideo
-                    // keep top level url
-                    ? new Video($subVideo->getPlatform(), $subVideo->getId(), $videoUrl)
-                    : null;
+                return $this->parseUrl($query["url"] ?? "");
             }
 
             if ("/attribution_link" === $path)
             {
                 $subUrl = \parse_url($query["u"] ?? "");
-                 \parse_str($subUrl["query"] ?? "", $subQuery);
+                \parse_str($subUrl["query"] ?? "", $subQuery);
 
                 return ("/watch" === ($subUrl["path"] ?? ""))
-                    ? $this->tryCreate($subQuery["v"] ?? "", $videoUrl)
+                    ? $this->tryCreate($subQuery["v"] ?? "")
                     : null;
             }
 
@@ -69,12 +88,13 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
         {
             if (\preg_match('~^/(?<id>.*?)$~', $path, $match))
             {
-                return $this->tryCreate($match["id"], $videoUrl);
+                return $this->tryCreate($match["id"]);
             }
         }
 
         return null;
     }
+
 
 
     /**
@@ -95,10 +115,8 @@ final class VideoUrlParserYoutube implements VideoUrlParserInterface
     /**
      * Tries to create a video if the ID is valid, returns null otherwise
      */
-    private function tryCreate (string $id, string $videoUrl) : ?Video
+    private function tryCreate (string $id) : ?string
     {
-        return $this->isValidId($id)
-            ? new Video(self::KEY, $id, $videoUrl)
-            : null;
+        return $this->isValidId($id) ? $id : null;
     }
 }

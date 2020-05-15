@@ -2,21 +2,21 @@
 
 namespace Becklyn\VideoPlatforms\Form\DataTransformer;
 
-use Becklyn\VideoPlatforms\Parser\VideoUrlParser;
+use Becklyn\VideoPlatforms\Platform\VideoPlatforms;
 use Becklyn\VideoPlatforms\Video\Video;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 final class VideoDataTransformer implements DataTransformerInterface
 {
-    private VideoUrlParser $parser;
+    private VideoPlatforms $platforms;
 
 
     /**
      */
-    public function __construct (VideoUrlParser $parser)
+    public function __construct (VideoPlatforms $platforms)
     {
-        $this->parser = $parser;
+        $this->platforms = $platforms;
     }
 
 
@@ -52,7 +52,7 @@ final class VideoDataTransformer implements DataTransformerInterface
             return null;
         }
 
-        $video = $this->parser->parse($value);
+        $video = $this->platforms->parseVideoUrl($value);
 
         if (null === $video)
         {

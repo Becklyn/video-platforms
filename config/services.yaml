@@ -9,3 +9,6 @@ services:
 
     Becklyn\VideoPlatforms\Parser\VideoUrlParser:
         $parsers: !tagged_iterator becklyn.video-platforms.parser
+
+    Becklyn\VideoPlatforms\Platform\VideoPlatforms:
+        $platforms: !tagged_locator { name: becklyn.video-platform, default_index_method: getKey }

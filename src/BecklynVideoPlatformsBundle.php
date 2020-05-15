@@ -3,7 +3,7 @@
 namespace Becklyn\VideoPlatforms;
 
 use Becklyn\RadBundle\Bundle\BundleExtension;
-use Becklyn\VideoPlatforms\Parser\VideoUrlParserInterface;
+use Becklyn\VideoPlatforms\Platform\VideoPlatformInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -23,8 +23,8 @@ final class BecklynVideoPlatformsBundle extends Bundle
      */
     public function build (ContainerBuilder $container) : void
     {
-        $container->registerForAutoconfiguration(VideoUrlParserInterface::class)
-            ->addTag("becklyn.video-platforms.parser");
+        $container->registerForAutoconfiguration(VideoPlatformInterface::class)
+            ->addTag("becklyn.video-platform");
     }
 
 

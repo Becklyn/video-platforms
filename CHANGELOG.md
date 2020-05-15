@@ -1,3 +1,9 @@
+2.0.1
+=====
+
+*   (bug) Fix invalid DI config.
+
+
 2.0.0
 =====
 

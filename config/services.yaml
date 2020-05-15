@@ -7,8 +7,5 @@ services:
         resource: '../src/*'
         exclude: '../src/{Exception,Video,BecklynVideoPlatformsBundle.php}'
 
-    Becklyn\VideoPlatforms\Parser\VideoUrlParser:
-        $parsers: !tagged_iterator becklyn.video-platforms.parser
-
     Becklyn\VideoPlatforms\Platform\VideoPlatforms:
-        $platforms: !tagged_locator { name: becklyn.video-platform, default_index_method: getKey }
+        $platforms: !tagged_locator { tag: becklyn.video-platform, default_index_method: getKey }

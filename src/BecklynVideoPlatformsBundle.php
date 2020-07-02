@@ -26,13 +26,4 @@ final class BecklynVideoPlatformsBundle extends Bundle
         $container->registerForAutoconfiguration(VideoPlatformInterface::class)
             ->addTag("becklyn.video-platform");
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getPath ()
-    {
-        return \dirname(__DIR__);
-    }
 }

@@ -1,3 +1,9 @@
+2.0.2
+=====
+
+*   (improvement) Add support for Symfony 4.4+.
+
+
 2.0.1
 =====
 

@@ -2,7 +2,7 @@
 
 namespace Becklyn\VideoPlatforms;
 
-use Becklyn\RadBundle\Bundle\BundleExtension;
+use Becklyn\RadBundles\Bundle\BundleExtension;
 use Becklyn\VideoPlatforms\Platform\VideoPlatformInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

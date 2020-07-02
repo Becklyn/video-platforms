@@ -2,6 +2,7 @@
 =====
 
 *   (improvement) Add support for Symfony 4.4+.
+*   (improvement) Remove `becklyn/rad-bundle` dependency in favor of a smaller dependency.
 
 
 2.0.1

@@ -3,6 +3,7 @@
 
 *   (improvement) Add support for Symfony 4.4+.
 *   (improvement) Remove `becklyn/rad-bundle` dependency in favor of a smaller dependency.
+*   (improvement) Add support for vimeo channel urls: `https://vimeo.com/channel/becklynstudios/12345`
 
 
 2.0.1

@@ -25,6 +25,7 @@ final class VideoPlatformsParseUrlTest extends TestCase
         yield "vimeo url with query" => ["https://vimeo.com/123456789?test=123", "vimeo@123456789"];
         yield "vimeo url with fragment" => ["https://vimeo.com/123456789#abc", "vimeo@123456789"];
         yield "vimeo url with query + fragment" => ["https://vimeo.com/123456789?test=123#abc", "vimeo@123456789"];
+        yield "vimeo staff picks" => ["https://vimeo.com/channels/staffpicks/32001208", "vimeo@32001208"];
 
         // Invalid Vimeo variations
         yield "vimeo with parent dir" => ["https://vimeo.com/parent/123456789", null];

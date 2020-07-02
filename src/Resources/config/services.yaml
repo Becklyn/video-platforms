@@ -4,8 +4,8 @@ services:
         autoconfigure: true
 
     Becklyn\VideoPlatforms\:
-        resource: '../src/*'
-        exclude: '../src/{Exception,Video,BecklynVideoPlatformsBundle.php}'
+        resource: '../../*'
+        exclude: '../../{Exception,Video,BecklynVideoPlatformsBundle.php}'
 
     Becklyn\VideoPlatforms\Platform\VideoPlatforms:
         $platforms: !tagged_locator { tag: becklyn.video-platform, default_index_method: getKey }

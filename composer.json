@@ -12,11 +12,11 @@
     ],
     "require": {
         "php": "^7.4",
-        "becklyn/rad-bundle": "^7.6",
-        "symfony/form": "^5.0",
-        "symfony/http-foundation": "^5.0",
-        "symfony/http-kernel": "^5.0",
-        "symfony/validator": "^5.0"
+        "becklyn/rad-bundles": "^1.0",
+        "symfony/form": "^4.4 || ^5.1",
+        "symfony/http-foundation": "^4.4 || ^5.1",
+        "symfony/http-kernel": "^4.4 || ^5.1",
+        "symfony/validator": "^4.4 || ^5.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -27,7 +27,6 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev",
             "dev-next": "2.x-dev"
         }
     },

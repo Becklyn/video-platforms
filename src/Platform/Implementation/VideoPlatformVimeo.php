@@ -47,7 +47,7 @@ final class VideoPlatformVimeo implements VideoPlatformInterface
         $host = $parsed["host"] ?? null;
         $path = $parsed["path"] ?? "";
 
-        return ("vimeo.com" === $host && \preg_match("~^/(?<id>\\d+)$~", $path, $matches))
+        return ("vimeo.com" === $host && \preg_match("~^/(?:channels/[^/]+/)?(?<id>\\d+)$~", $path, $matches))
             ? $matches["id"]
             : null;
     }

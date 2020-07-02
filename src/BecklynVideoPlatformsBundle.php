@@ -2,7 +2,7 @@
 
 namespace Becklyn\VideoPlatforms;
 
-use Becklyn\RadBundle\Bundle\BundleExtension;
+use Becklyn\RadBundles\Bundle\BundleExtension;
 use Becklyn\VideoPlatforms\Platform\VideoPlatformInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -25,14 +25,5 @@ final class BecklynVideoPlatformsBundle extends Bundle
     {
         $container->registerForAutoconfiguration(VideoPlatformInterface::class)
             ->addTag("becklyn.video-platform");
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getPath ()
-    {
-        return \dirname(__DIR__);
     }
 }

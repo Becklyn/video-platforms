@@ -11,16 +11,16 @@
         }
     ],
     "require": {
-        "php": "^7.4",
-        "becklyn/rad-bundles": "^1.0",
-        "symfony/form": "^4.4 || ^5.1",
-        "symfony/http-foundation": "^4.4 || ^5.1",
-        "symfony/http-kernel": "^4.4 || ^5.1",
-        "symfony/validator": "^4.4 || ^5.1"
+        "php": ">=7.4",
+        "becklyn/rad-bundles": "^1.1.0",
+        "symfony/form": "^v5.4.3 || ^v6.0.3",
+        "symfony/http-foundation": "^v5.4.3 || ^v6.0.3",
+        "symfony/http-kernel": "^v5.4.3 || ^v6.0.3",
+        "symfony/validator": "^v5.4.3 || ^v6.0.3"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "symfony/phpunit-bridge": "^5.0.7"
+        "symfony/phpunit-bridge": "^v5.4.3 || ^v6.0.3"
     },
     "config": {
         "sort-packages": true

@@ -18,7 +18,7 @@ final class VideoUrl extends Constraint
     /**
      * @inheritDoc
      */
-    public function validatedBy ()
+    public function validatedBy () : string
     {
         return VideoUrlValidator::class;
     }

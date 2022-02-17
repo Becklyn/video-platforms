@@ -27,7 +27,8 @@ final class VideoUrlValidator extends ConstraintValidator
             return;
         }
 
-        try {
+        try
+        {
             $video = Video::createFromArray($value);
             \assert($video instanceof Video);
 
@@ -48,13 +49,10 @@ final class VideoUrlValidator extends ConstraintValidator
     }
 
 
-    /**
-     */
     private function invalid (VideoUrl $constraint) : void
     {
         $this->context
             ->buildViolation($constraint->invalidMessage)
             ->addViolation();
     }
-
 }
